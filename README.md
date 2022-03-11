@@ -2,7 +2,13 @@
 
 ![Untitled-4](https://user-images.githubusercontent.com/88251253/157810169-6dd0cf5d-675a-4853-81b0-b733c3e876f2.png)
 
-This plugin allows you to modify per-world player values such as Health, Movement speed, Flying speed, enable pick up item in that world or not.
+This plugin allows you to modify per-world player's
+- Health,
+- Movement speed,
+- Flying speed,
+- enable pick up item,
+- Enable old pvp mechanics(NEW!),
+- enable pvp(NEW!)
 
 ![Untitled-24](https://user-images.githubusercontent.com/88251253/157810220-dde885a8-8628-45d7-b211-48a2cdfc2301.png)
 

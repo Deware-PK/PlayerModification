@@ -1,9 +1,11 @@
 package com.stand.Command;
 
+import com.stand.PluginCollection;
 import com.stand.Utility.Common;
 import com.stand.Utility.PlayerUtil;
 import de.leonhard.storage.Config;
 import org.bukkit.Bukkit;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -28,6 +30,7 @@ public class PlayerModificationCommand implements CommandExecutor {
 		if (args.length == 1) {
 			final String param = args[0].toLowerCase();
 			if ("reload".equals(param)) {
+
 				player.sendMessage(Common.colorize("&aPlayerModification configuration has been reloaded!"));
 
 					for (final String worldName : Common.getWorldNames()) {
@@ -37,6 +40,8 @@ public class PlayerModificationCommand implements CommandExecutor {
 							config.setDefault(player.getWorld().getName() + ".Movement_Speed", 0.2F);
 							config.setDefault(player.getWorld().getName() + ".Flying_Speed", 0.1F);
 							config.setDefault(player.getWorld().getName() + ".Enabled_Pick_Up_Item", true);
+							config.setDefault(player.getWorld().getName() + ".Enabled_Old_Pvp_Mechanics" , false);
+							config.setDefault(player.getWorld().getName() + ".Allow_PVP" , true);
 						}
 
 						for (final Player plr : Bukkit.getOnlinePlayers()) {
@@ -46,6 +51,8 @@ public class PlayerModificationCommand implements CommandExecutor {
 								config.setDefault(player.getWorld().getName() + ".Movement_Speed", 0.2F);
 								config.setDefault(player.getWorld().getName() + ".Flying_Speed", 0.1F);
 								config.setDefault(player.getWorld().getName() + ".Enabled_Pick_Up_Item", true);
+								config.setDefault(player.getWorld().getName() + ".Enabled_Old_Pvp_Mechanics" , false);
+								config.setDefault(player.getWorld().getName() + ".Allow_PVP" , true);
 							}
 
 							if (plr.getWorld().getName().equals(worldName)) {
@@ -62,6 +69,17 @@ public class PlayerModificationCommand implements CommandExecutor {
 								plr.setWalkSpeed(config.getSection(worldName).getFloat("Movement_Speed"));
 								plr.setFlySpeed(config.getSection(worldName).getFloat("Flying_Speed"));
 								plr.setCanPickupItems(config.getSection(worldName).getBoolean("Enabled_Pick_Up_Item"));
+								if(config.getSection(worldName).getBoolean("Enabled_Old_Pvp_Mechanics")) {
+									plr.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(16);
+								} else {
+									plr.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4);
+								}
+
+								if (!config.getSection(worldName).getBoolean("Allow_PVP")) {
+									PluginCollection.addPvpPlayer(plr);
+								} else {
+									PluginCollection.removePvpPlayer(plr);
+								}
 							}
 						}
 					}

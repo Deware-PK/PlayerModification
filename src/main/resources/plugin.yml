@@ -6,6 +6,8 @@ description: The plugin which allows you to modify player's values per-world.
 permissions:
   PlayerModification.access:
     default: op
+  PlayerModification.PvpBypass:
+    default: op
 commands:
   playermodification:
     usage: /<command>

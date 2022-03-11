@@ -1,0 +1,13 @@
+name: PlayerModification
+version: '2.0.0'
+main: com.stand.PlayerModification
+authors: [ MrDefault ]
+description: The plugin which allows you to modify player's values per-world.
+permissions:
+  PlayerModification.access:
+    default: op
+commands:
+  playermodification:
+    usage: /<command>
+    aliases: [pm, pmd]
+    description: Usage of Player modfication plugin.

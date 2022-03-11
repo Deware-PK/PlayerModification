@@ -1,0 +1,7 @@
+com\stand\Command\onTabCompleter.class
+com\stand\Command\PlayerModificationCommand.class
+com\stand\Utility\PlayerUtil.class
+com\stand\Utility\Valid.class
+com\stand\Listener\PlayerListener.class
+com\stand\PlayerModification.class
+com\stand\Utility\Common.class

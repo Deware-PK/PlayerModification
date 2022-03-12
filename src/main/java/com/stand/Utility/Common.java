@@ -35,6 +35,12 @@ public class Common {
 		return worlds;
 	}
 
+	/** public static List<String> getBlackListWorlds() {
+		final List<String> worlds = new ArrayList<>();
+
+		for (final World world : )
+	} **/
+
 	public static <T extends Runnable> BukkitTask runLater(final T task) {
 		return runLater(1, task);
 	}

@@ -6,6 +6,7 @@ import com.stand.Listener.PlayerMainListener;
 import com.stand.Listener.PlayerOptionalListener;
 import com.stand.Utility.Common;
 import de.leonhard.storage.Config;
+import de.leonhard.storage.Yaml;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -25,7 +26,9 @@ public final class PlayerModification extends JavaPlugin {
 
 		instance = this;
 		config = new Config("Settings", "plugins/PlayerModification");
-		Bukkit.getConsoleSender().sendMessage(Common.colorize("&aPlayerModification_2.0.0 -> Enabled"));
+		final Yaml yaml = new Yaml("Black-list-world", "plugins/PlayerModification");
+
+		Bukkit.getConsoleSender().sendMessage(Common.colorize("&aPlayerModification_2.2.0 -> Enabled"));
 
 		getServer().getPluginManager().registerEvents(new PlayerMainListener() , this);
 		getServer().getPluginManager().registerEvents(new PlayerOptionalListener(), this);
@@ -43,6 +46,7 @@ public final class PlayerModification extends JavaPlugin {
 			config.setDefault(worldName + ".Allow_PVP" , true);
 		}
 
+
 		config.setDefault("Your_Custom_World_Name" + ".Health", 20.0D);
 		config.setDefault("Your_Custom_World_Name" + ".Health_Scale" , 20.0D);
 		config.setDefault("Your_Custom_World_Name" + ".Movement_Speed", 0.2F);
@@ -50,19 +54,30 @@ public final class PlayerModification extends JavaPlugin {
 		config.setDefault("Your_Custom_World_Name" + ".Enabled_Pick_Up_Item", true);
 		config.setDefault("Your_Custom_World_Name" + ".Enabled_Old_Pvp_Mechanics" , false);
 		config.setDefault("Your_Custom_World_Name" + ".Allow_PVP" , true);
+
+		// -- Black-list -- //
+
+		PluginCollection.addBlackListWorld("example");
+		PluginCollection.addAllBlackListWorlds(yaml.getStringList("Black_List"));
+
+		yaml.setDefault("Black_List", PluginCollection.getBlackListWorldList());
+
 	}
 
 	@Override
 	public void onDisable() {
-		Bukkit.getConsoleSender().sendMessage(Common.colorize("&cPlayerModification_2.0 -> Disabled"));
+		Bukkit.getConsoleSender().sendMessage(Common.colorize("&cPlayerModification_2.2.0 -> Disabled"));
 		for (final Player player : Bukkit.getOnlinePlayers()) {
 			player.setHealth(20.0D);
 			player.setMaxHealth(20.0D);
+			player.setHealthScale(20.0D);
 			player.setWalkSpeed(0.2F);
 			player.setFlySpeed(0.1F);
 			player.setFallDistance(3.7F);
 			player.setCanPickupItems(true);
 			PluginCollection.clear();
+			PluginCollection.clearBlackListWorlds();
 		}
 	}
+
 }

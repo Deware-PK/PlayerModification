@@ -7,7 +7,7 @@ permissions:
   PlayerModification.access:
     default: op
   PlayerModification.PvpBypass:
-    default: op
+    default: false
 commands:
   playermodification:
     usage: /<command>

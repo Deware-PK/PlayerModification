@@ -29,8 +29,11 @@ This plugin allows you to modify per-world player's
 - This won't reset player's value to default value if worlds in the blacklist.
 - This won't reset player's value when server is disable.
 - This won't reset player's value when player quit a server.
-[MEGA](https://mega.nz/file/WH42xaoS#c8O69hrJTwSKxF98BOtLWATpxHNbrCaAanh9LiFZqG8)
-
+- Download:
+- [MEGA](https://mega.nz/file/WH42xaoS#c8O69hrJTwSKxF98BOtLWATpxHNbrCaAanh9LiFZqG8)
+- [Mediafile](https://www.mediafire.com/file/4fbl7o9a2plr9sr/PlayerModification-Dev-Build.jar/file)
+- If you are worried about virus, Don't worry we have the confirmation it's safe from virustotal.com:
+- [VirusTotal](https://www.virustotal.com/gui/file/e5104737203910f5de7c8fca665e2269dda4ec30a84f06fc7da85375e79c29ee?nocache=1)
 # Warning
 ```diff
 - This plugin only working on Java 11 or above.

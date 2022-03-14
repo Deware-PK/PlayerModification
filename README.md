@@ -25,6 +25,11 @@ This plugin allows you to modify per-world player's
 
 # Download
 [SpigotMC](https://www.spigotmc.org/resources/playermodification-modify-per-world-players-value-such-as-health-movement-speed-and-more.66451/)
+# Development Build
+- This won't reset player's value to default value if worlds in the blacklist.
+- This won't reset player's value when server is disable.
+- This won't reset player's value when player quit a server.
+[MEGA](https://mega.nz/file/WH42xaoS#c8O69hrJTwSKxF98BOtLWATpxHNbrCaAanh9LiFZqG8)
 
 # Warning
 ```diff

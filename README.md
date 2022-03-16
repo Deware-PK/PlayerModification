@@ -18,7 +18,7 @@ This plugin allows you to modify per-world player's
 
 # Permission:
 - PlayerModification.access - allow to use this plugins
-- /Playermodification reset or /pm reset - Resetting all player who in the blacklisted world.
+- PlayerModification.autoreset - Auto reset player's value if they get into blacklisted world.
 - PlayerModification.PvpBypass - bypass pvp even if pvp is disabled.
 # Commands:
 - /Playermodifcation help or /pm help - Getting help of this plugin.

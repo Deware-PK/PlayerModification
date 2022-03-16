@@ -14,6 +14,7 @@ public class PlayerOptionalListener implements Listener {
 	@EventHandler
 	public void onCombat(final EntityDamageByEntityEvent event) {
 
+
 		// Condition #1 - PVP without projectile
 		if (event.getDamager() instanceof Player && event.getEntity() instanceof Player) {
 			final Player damager = (Player) event.getDamager();

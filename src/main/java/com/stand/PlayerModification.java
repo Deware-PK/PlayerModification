@@ -16,6 +16,13 @@ import java.util.List;
 
 public final class PlayerModification extends JavaPlugin {
 
+	/**
+	 * To add more settings edit following:
+	 * 1. OnEnable
+	 * 2. PlayerModificationCommand
+	 * 3. PlayerMainListener
+	 */
+
 	private Config config;
 	private static PlayerModification instance;
 
@@ -30,7 +37,7 @@ public final class PlayerModification extends JavaPlugin {
 		config = new Config("Settings", "plugins/PlayerModification");
 		final Yaml yaml = new Yaml("Black-list-world", "plugins/PlayerModification");
 
-		Bukkit.getConsoleSender().sendMessage(Common.colorize("&aPlayerModification_2.2.1 -> Enabled"));
+		Bukkit.getConsoleSender().sendMessage(Common.colorize("&aPlayerModification_2.2.2 -> Enabled"));
 
 		getServer().getPluginManager().registerEvents(new PlayerMainListener() , this);
 		getServer().getPluginManager().registerEvents(new PlayerOptionalListener(), this);
@@ -41,6 +48,7 @@ public final class PlayerModification extends JavaPlugin {
 		for (final String worldName : Common.getWorldNames()) {
 			config.setDefault(worldName + ".Health", 20.0D);
 			config.setDefault(worldName + ".Health_Scale" , 20.0D);
+			config.setDefault(worldName + ".Attack_Damage", 1.0D);
 			config.setDefault(worldName + ".Movement_Speed", 0.2F);
 			config.setDefault(worldName + ".Flying_Speed", 0.1F);
 			config.setDefault(worldName + ".Enabled_Pick_Up_Item", true);
@@ -51,6 +59,7 @@ public final class PlayerModification extends JavaPlugin {
 
 		config.setDefault("Your_Custom_World_Name" + ".Health", 20.0D);
 		config.setDefault("Your_Custom_World_Name" + ".Health_Scale" , 20.0D);
+		config.setDefault("Your_Custom_World_Name" + ".Attack_Damage", 1.0D);
 		config.setDefault("Your_Custom_World_Name" + ".Movement_Speed", 0.2F);
 		config.setDefault("Your_Custom_World_Name" + ".Flying_Speed", 0.1F);
 		config.setDefault("Your_Custom_World_Name" + ".Enabled_Pick_Up_Item", true);
@@ -68,11 +77,12 @@ public final class PlayerModification extends JavaPlugin {
 		}
 
 
+
 	}
 
 	@Override
 	public void onDisable() {
-		Bukkit.getConsoleSender().sendMessage(Common.colorize("&cPlayerModification_2.2.1 -> Disabled"));
+		Bukkit.getConsoleSender().sendMessage(Common.colorize("&cPlayerModification_2.2.2 -> Disabled"));
 	}
 
 }

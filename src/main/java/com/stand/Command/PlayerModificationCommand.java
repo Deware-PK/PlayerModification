@@ -60,6 +60,7 @@ public class PlayerModificationCommand implements CommandExecutor {
 								plr.resetMaxHealth();
 								plr.setHealthScale(20.0D);
 								plr.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4);
+								plr.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(1);
 								plr.setCanPickupItems(true);
 								plr.setWalkSpeed(0.2F);
 								plr.setFlySpeed(0.1F);
@@ -70,6 +71,7 @@ public class PlayerModificationCommand implements CommandExecutor {
 
 								plr.setCanPickupItems(true);
 								plr.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4);
+								plr.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(1);
 								PluginCollection.removePvpPlayer(plr);
 								return true;
 
@@ -77,6 +79,7 @@ public class PlayerModificationCommand implements CommandExecutor {
 
 								plr.setHealthScale(config.getSection(worldName).getDouble("Health_Scale"));
 								plr.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(config.getSection(worldName).getDouble("Health"));
+								plr.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(config.getSection(worldName).getDouble("Attack_Damage"));
 								plr.setWalkSpeed(config.getSection(worldName).getFloat("Movement_Speed"));
 								plr.setFlySpeed(config.getSection(worldName).getFloat("Flying_Speed"));
 								plr.setCanPickupItems(config.getSection(worldName).getBoolean("Enabled_Pick_Up_Item"));
@@ -98,6 +101,7 @@ public class PlayerModificationCommand implements CommandExecutor {
 
 									config.setDefault(player.getWorld().getName() + ".Health", 20.0D);
 									config.setDefault(player.getWorld().getName() + ".Health_Scale", 20.0D);
+									config.setDefault(player.getWorld().getName() + ".Attack_Damage", 1.0D);
 									config.setDefault(player.getWorld().getName() + ".Movement_Speed", 0.2F);
 									config.setDefault(player.getWorld().getName() + ".Flying_Speed", 0.1F);
 									config.setDefault(player.getWorld().getName() + ".Enabled_Pick_Up_Item", true);
@@ -123,6 +127,7 @@ public class PlayerModificationCommand implements CommandExecutor {
 							plr.resetMaxHealth();
 							plr.setHealthScale(20.0D);
 							plr.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4);
+							plr.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(1);
 							plr.setCanPickupItems(true);
 							plr.setWalkSpeed(0.2F);
 							plr.setFlySpeed(0.1F);
@@ -140,7 +145,7 @@ public class PlayerModificationCommand implements CommandExecutor {
 	}
 
 	private void sendHelp(final Player player) {
-		Common.sendMessage(player, "&5-----------&f[&ePlayerModification 2.2.1&f]&5-----------");
+		Common.sendMessage(player, "&5-----------&f[&ePlayerModification 2.2.2&f]&5-----------");
 		Common.sendMessage(player , "&4<> = Require &f,&c [] = Optional");
 		Common.sendMessage(player , "&cAliases: /pm&f,&c /pmd");
 		Common.sendMessage(player , "&6/playermodification reload &f- Reload the configuration.");

@@ -41,12 +41,14 @@ public class Common {
 	@SneakyThrows
 	public static List<String> getBlackListWorldNames() {
 	 	final List<String> worlds = new ArrayList<>();
+		worlds.add("Do_not_remove_this");
 
 	 	for (final World world : WorldManager.blackListedWorlds)
 			 try {
 				 worlds.add(world.getName());
 			 } catch (final NullPointerException ex) {
-				 throw new WorldNotFoundException("World's name in black-list-world.yml is invalid. Please specific correctly otherwise blacklisted system won't work");
+				 worlds.add("Do_not_remove_this_1");
+				 throw new WorldNotFoundException("World's name in black-list-world.yml is invalid. Please specific correctly otherwise this plugin won't work.");
 			 }
 
 	 	return worlds;

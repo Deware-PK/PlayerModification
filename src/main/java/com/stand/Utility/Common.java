@@ -1,8 +1,11 @@
 package com.stand.Utility;
 
+import com.stand.Exception.WorldNotFoundException;
 import com.stand.PlayerModification;
+import com.stand.WorldManager;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
@@ -35,11 +38,19 @@ public class Common {
 		return worlds;
 	}
 
-	/** public static List<String> getBlackListWorlds() {
-		final List<String> worlds = new ArrayList<>();
+	@SneakyThrows
+	public static List<String> getBlackListWorldNames() {
+	 	final List<String> worlds = new ArrayList<>();
 
-		for (final World world : )
-	} **/
+	 	for (final World world : WorldManager.blackListedWorlds)
+			 try {
+				 worlds.add(world.getName());
+			 } catch (final NullPointerException ex) {
+				 throw new WorldNotFoundException("World's name in black-list-world.yml is invalid. Please specific correctly otherwise blacklisted system won't work");
+			 }
+
+	 	return worlds;
+	 }
 
 	public static <T extends Runnable> BukkitTask runLater(final T task) {
 		return runLater(1, task);

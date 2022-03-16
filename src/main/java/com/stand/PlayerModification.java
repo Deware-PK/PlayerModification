@@ -9,8 +9,10 @@ import de.leonhard.storage.Config;
 import de.leonhard.storage.Yaml;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class PlayerModification extends JavaPlugin {
 
@@ -28,7 +30,7 @@ public final class PlayerModification extends JavaPlugin {
 		config = new Config("Settings", "plugins/PlayerModification");
 		final Yaml yaml = new Yaml("Black-list-world", "plugins/PlayerModification");
 
-		Bukkit.getConsoleSender().sendMessage(Common.colorize("&aPlayerModification_2.2.0 -> Enabled"));
+		Bukkit.getConsoleSender().sendMessage(Common.colorize("&aPlayerModification_2.2.1 -> Enabled"));
 
 		getServer().getPluginManager().registerEvents(new PlayerMainListener() , this);
 		getServer().getPluginManager().registerEvents(new PlayerOptionalListener(), this);
@@ -57,27 +59,20 @@ public final class PlayerModification extends JavaPlugin {
 
 		// -- Black-list -- //
 
-		PluginCollection.addBlackListWorld("example");
-		PluginCollection.addAllBlackListWorlds(yaml.getStringList("Black_List"));
+		final List<String> worlds = new ArrayList<>();
+		yaml.setDefault("Black_List", worlds);
 
-		yaml.setDefault("Black_List", PluginCollection.getBlackListWorldList());
+		final List<String> BlackListWorldName = yaml.getStringList("Black_List");
+		for (final String world : BlackListWorldName) {
+			WorldManager.blackListedWorlds.add(Bukkit.getWorld(world));
+		}
+
 
 	}
 
 	@Override
 	public void onDisable() {
-		Bukkit.getConsoleSender().sendMessage(Common.colorize("&cPlayerModification_2.2.0 -> Disabled"));
-		for (final Player player : Bukkit.getOnlinePlayers()) {
-			player.setHealth(20.0D);
-			player.setMaxHealth(20.0D);
-			player.setHealthScale(20.0D);
-			player.setWalkSpeed(0.2F);
-			player.setFlySpeed(0.1F);
-			player.setFallDistance(3.7F);
-			player.setCanPickupItems(true);
-			PluginCollection.clear();
-			PluginCollection.clearBlackListWorlds();
-		}
+		Bukkit.getConsoleSender().sendMessage(Common.colorize("&cPlayerModification_2.2.1 -> Disabled"));
 	}
 
 }

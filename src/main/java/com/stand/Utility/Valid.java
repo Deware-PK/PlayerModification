@@ -1,5 +1,7 @@
 package com.stand.Utility;
 
+import lombok.SneakyThrows;
+
 public class Valid {
 
 	public void checkNotNull(final Object toCheck) {
@@ -12,11 +14,13 @@ public class Valid {
 			throw new NullPointerException(falseMessage);
 	}
 
+	@SneakyThrows
 	public static void checkBoolean(final boolean expression) {
 		if (!expression)
 			throw new NullPointerException();
 	}
 
+	@SneakyThrows
 	public static void checkBoolean(final boolean expression, final String falseMessage, final Object... replacements) {
 		if (!expression)
 			throw new NullPointerException(String.format(falseMessage, replacements));

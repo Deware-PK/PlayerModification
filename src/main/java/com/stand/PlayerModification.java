@@ -1,10 +1,10 @@
 package com.stand;
 
-import com.stand.Command.PlayerModificationCommand;
-import com.stand.Command.onTabCompleter;
-import com.stand.Listener.PlayerMainListener;
-import com.stand.Listener.PlayerOptionalListener;
-import com.stand.Utility.Common;
+import com.stand.command.PlayerModificationCommand;
+import com.stand.command.onTabCompleter;
+import com.stand.listener.PlayerMainListener;
+import com.stand.listener.PlayerOptionalListener;
+import com.stand.utility.Common;
 import de.leonhard.storage.Config;
 import de.leonhard.storage.Yaml;
 import lombok.SneakyThrows;
@@ -36,14 +36,16 @@ public final class PlayerModification extends JavaPlugin {
 		instance = this;
 		config = new Config("Settings", "plugins/PlayerModification");
 		final Yaml yaml = new Yaml("Black-list-world", "plugins/PlayerModification");
+		final Metrics metrics = new Metrics(this , 14648);
 
-		Bukkit.getConsoleSender().sendMessage(Common.colorize("&aPlayerModification_2.2.2 -> Enabled"));
+		Bukkit.getConsoleSender().sendMessage(Common.colorize("&aPlayerModification_2.2.4 -> Enabled"));
 
 		getServer().getPluginManager().registerEvents(new PlayerMainListener() , this);
 		getServer().getPluginManager().registerEvents(new PlayerOptionalListener(), this);
 
 		getCommand("playermodification").setExecutor(new PlayerModificationCommand());
 		getCommand("playermodification").setTabCompleter(new onTabCompleter());
+
 
 		for (final String worldName : Common.getWorldNames()) {
 			config.setDefault(worldName + ".Health", 20.0D);
@@ -75,14 +77,11 @@ public final class PlayerModification extends JavaPlugin {
 		for (final String world : BlackListWorldName) {
 			WorldManager.blackListedWorlds.add(Bukkit.getWorld(world));
 		}
-
-
-
 	}
 
 	@Override
 	public void onDisable() {
-		Bukkit.getConsoleSender().sendMessage(Common.colorize("&cPlayerModification_2.2.2 -> Disabled"));
+		Bukkit.getConsoleSender().sendMessage(Common.colorize("&cPlayerModification_2.2.4 -> Disabled"));
 	}
 
 }

@@ -15,3 +15,7 @@ commands:
     usage: /<command>
     aliases: [pm, pmd]
     description: Usage of Player modfication plugin.
+  pmadmin:
+    usage: /<command>
+    aliases: [pma]
+    description: Admin command for Player modification plugin.

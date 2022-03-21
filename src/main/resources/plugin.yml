@@ -8,14 +8,14 @@ permissions:
     default: op
   PlayerModification.PvpBypass:
     default: false
-  PlayerModification.autoreset:
+  PlayerModification.dontreset:
     default: false
 commands:
   playermodification:
     usage: /<command>
     aliases: [pm, pmd]
     description: Usage of Player modfication plugin.
-  pmadmin:
+  playermodificationconsole:
     usage: /<command>
-    aliases: [pma]
-    description: Admin command for Player modification plugin.
+    aliases: [pmc,pmconsole]
+    description: Using this plugin via console.

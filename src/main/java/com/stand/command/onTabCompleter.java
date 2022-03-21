@@ -16,6 +16,7 @@ public class onTabCompleter implements org.bukkit.command.TabCompleter {
 			arguments.add("reload");
 			arguments.add("help");
 			arguments.add("reset");
+			arguments.add("disable");
 		}
 
 		final List<String> tabList = new ArrayList<>();

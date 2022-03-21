@@ -2,11 +2,11 @@ package com.stand;
 
 import org.bukkit.World;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class WorldManager {
 
-	public static List<World> blackListedWorlds = new ArrayList<>();
+	public static Set<World> blackListedWorlds = new HashSet<>();
 
 }

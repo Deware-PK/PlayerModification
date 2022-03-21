@@ -23,7 +23,15 @@ public class PlayerMainListener implements Listener {
 
 			for (final String BlackListWorldName : Common.getBlackListWorldNames()) {
 
-				if (player.getWorld().getName().equals(BlackListWorldName) && player.hasPermission("PlayerModification.autoreset")) {
+				if (player.getWorld().getName().equals(BlackListWorldName) && player.hasPermission("PlayerModification.dontreset")) {
+
+					PluginCollection.removePvpPlayer(player);
+					player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4);
+					player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(1);
+					player.setCanPickupItems(true);
+					return;
+
+				} else if (player.getWorld().getName().equals(BlackListWorldName) && !player.hasPermission("PlayerModification.dontreset")) {
 
 					player.resetMaxHealth();
 					player.setHealthScale(20.0D);
@@ -33,14 +41,6 @@ public class PlayerMainListener implements Listener {
 					player.setWalkSpeed(0.2F);
 					player.setFlySpeed(0.1F);
 					PluginCollection.removePvpPlayer(player);
-					return;
-
-				} else if (player.getWorld().getName().equals(BlackListWorldName) && !player.hasPermission("PlayerModification.autoreset")) {
-
-					PluginCollection.removePvpPlayer(player);
-					player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(1);
-					player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4);
-					player.setCanPickupItems(true);
 					return;
 
 				} else if (player.getWorld().getName().equals(worldName)) {
@@ -77,7 +77,15 @@ public class PlayerMainListener implements Listener {
 
 			for (final String BlackListWorldName : Common.getBlackListWorldNames()) {
 
-				if (player.getWorld().getName().equals(BlackListWorldName) && player.hasPermission("PlayerModification.autoreset")) {
+				if (player.getWorld().getName().equals(BlackListWorldName) && player.hasPermission("PlayerModification.dontreset")) {
+
+					PluginCollection.removePvpPlayer(player);
+					player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4);
+					player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(1);
+					player.setCanPickupItems(true);
+					return;
+
+				} else if (player.getWorld().getName().equals(BlackListWorldName) && !player.hasPermission("PlayerModification.dontreset")) {
 
 					player.resetMaxHealth();
 					player.setHealthScale(20.0D);
@@ -89,15 +97,8 @@ public class PlayerMainListener implements Listener {
 					PluginCollection.removePvpPlayer(player);
 					return;
 
-				} else if (player.getWorld().getName().equals(BlackListWorldName) && !player.hasPermission("PlayerModification.autoreset")) {
-
-					PluginCollection.removePvpPlayer(player);
-					player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4);
-					player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(1);
-					player.setCanPickupItems(true);
-					return;
-
 				} else if (player.getWorld().getName().equals(worldName)) {
+
 					player.setHealthScale(config.getSection(worldName).getDouble("Health_Scale"));
 					player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(config.getSection(worldName).getDouble("Health"));
 					player.setWalkSpeed(config.getSection(worldName).getFloat("Movement_Speed"));
@@ -116,6 +117,7 @@ public class PlayerMainListener implements Listener {
 					} else {
 						PluginCollection.removePvpPlayer(player);
 					}
+					return;
 				}
 			}
 
@@ -144,7 +146,15 @@ public class PlayerMainListener implements Listener {
 
 			for (final String BlackListWorldName : Common.getBlackListWorldNames()) {
 
-				if (player.getWorld().getName().equals(BlackListWorldName) && player.hasPermission("PlayerModification.autoreset")) {
+				if (player.getWorld().getName().equals(BlackListWorldName) && player.hasPermission("PlayerModification.dontreset")) {
+
+					PluginCollection.removePvpPlayer(player);
+					player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4);
+					player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(1);
+					player.setCanPickupItems(true);
+					return;
+
+				} else if (player.getWorld().getName().equals(BlackListWorldName) && !player.hasPermission("PlayerModification.dontreset")) {
 
 					player.resetMaxHealth();
 					player.setHealthScale(20.0D);
@@ -154,14 +164,6 @@ public class PlayerMainListener implements Listener {
 					player.setWalkSpeed(0.2F);
 					player.setFlySpeed(0.1F);
 					PluginCollection.removePvpPlayer(player);
-					return;
-
-				} else if (player.getWorld().getName().equals(BlackListWorldName) && !player.hasPermission("PlayerModification.autoreset")) {
-
-					PluginCollection.removePvpPlayer(player);
-					player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(1);
-					player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4);
-					player.setCanPickupItems(true);
 					return;
 
 				} else if (player.getWorld().getName().equals(worldName)) {

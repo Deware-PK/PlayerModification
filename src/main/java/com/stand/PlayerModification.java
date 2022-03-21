@@ -1,6 +1,7 @@
 package com.stand;
 
 import com.stand.command.PlayerModificationCommand;
+import com.stand.command.PlayerModificationConsoleCommand;
 import com.stand.command.onTabCompleter;
 import com.stand.listener.PlayerMainListener;
 import com.stand.listener.PlayerOptionalListener;
@@ -23,7 +24,6 @@ public final class PlayerModification extends JavaPlugin {
 	 * 3. PlayerMainListener
 	 */
 
-	private Config config;
 	private static PlayerModification instance;
 
 	public static PlayerModification getInstance() {
@@ -34,16 +34,16 @@ public final class PlayerModification extends JavaPlugin {
 	public void onEnable() {
 
 		instance = this;
-		config = new Config("Settings", "plugins/PlayerModification");
-		final Yaml yaml = new Yaml("Black-list-world", "plugins/PlayerModification");
+		final Config config = new Config("Settings", "plugins/PlayerModification");
 		final Metrics metrics = new Metrics(this , 14648);
 
-		Bukkit.getConsoleSender().sendMessage(Common.colorize("&aPlayerModification_2.2.4 -> Enabled"));
+		Bukkit.getConsoleSender().sendMessage(Common.colorize("&aPlayerModification_2.2.5 -> Enabled"));
 
 		getServer().getPluginManager().registerEvents(new PlayerMainListener() , this);
 		getServer().getPluginManager().registerEvents(new PlayerOptionalListener(), this);
 
 		getCommand("playermodification").setExecutor(new PlayerModificationCommand());
+		getCommand("playermodificationconsole").setExecutor(new PlayerModificationConsoleCommand());
 		getCommand("playermodification").setTabCompleter(new onTabCompleter());
 
 
@@ -68,20 +68,35 @@ public final class PlayerModification extends JavaPlugin {
 		config.setDefault("Your_Custom_World_Name" + ".Enabled_Old_Pvp_Mechanics" , false);
 		config.setDefault("Your_Custom_World_Name" + ".Allow_PVP" , true);
 
-		// -- Black-list -- //
-
-		final List<String> worlds = new ArrayList<>();
-		yaml.setDefault("Black_List", worlds);
-
-		final List<String> BlackListWorldName = yaml.getStringList("Black_List");
-		for (final String world : BlackListWorldName) {
-			WorldManager.blackListedWorlds.add(Bukkit.getWorld(world));
-		}
 	}
 
 	@Override
 	public void onDisable() {
-		Bukkit.getConsoleSender().sendMessage(Common.colorize("&cPlayerModification_2.2.4 -> Disabled"));
+		Bukkit.getConsoleSender().sendMessage(Common.colorize("&cPlayerModification_2.2.5 -> Disabled"));
 	}
+
+	public void disableThisPlugin() {
+		getServer().getPluginManager().disablePlugin(this);
+	}
+
+	@Override
+	public void onLoad() {
+		// -- Black-list -- //
+
+		final Yaml yaml = new Yaml("Black-list-world", "plugins/PlayerModification");
+		final List<String> worlds = new ArrayList<>();
+		yaml.setDefault("Black_List", worlds);
+
+		final List<String> BlackListWorldName = yaml.getStringList("Black_List");
+
+		if (yaml.getStringList("Black_List").isEmpty()) {
+			Common.fixBlackListNull();
+		} else {
+			for (final String world : BlackListWorldName) {
+				WorldManager.blackListedWorlds.add(Bukkit.getWorld(world));
+			}
+		}
+	}
+
 
 }

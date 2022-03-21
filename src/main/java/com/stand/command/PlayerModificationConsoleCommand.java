@@ -12,32 +12,28 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class PlayerModificationCommand implements CommandExecutor {
-
+public class PlayerModificationConsoleCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
 		final Config config = new Config("Settings", "plugins/PlayerModification");
 		final Yaml yaml = new Yaml("Black-list-world", "plugins/PlayerModification");
 
-		if (sender instanceof ConsoleCommandSender) {
-			Bukkit.getConsoleSender().sendMessage(Common.colorize("&cFor the console using '/pmc' instead."));
-			return true;
-		}
-
-		final Player player = (Player) sender;
-
-		if (!PlayerUtil.hasPerm(player , "PlayerModification.access")) {
-			Common.sendMessage(player,"&cYou don't have permission to access PlayerModification plugin!");
+		if (sender instanceof Player) {
+			final Player player = (Player) sender;
+			if (!PlayerUtil.hasPerm(player, "PlayerModification.access")) {
+				Common.sendMessage(player, "&cFor the player using /pm instead.");
+				Common.sendMessage(player,"&cYou don't have permission to access PlayerModification plugin!");
+				return true;
+			}
 			return true;
 		}
 
 		if (args.length < 1) {
-			sendHelp(player);
+			sendHelp();
 		}
 
 		if (args.length == 1) {
@@ -59,18 +55,17 @@ public class PlayerModificationCommand implements CommandExecutor {
 					}
 				}
 
-				Common.sendMessage(player, "&7&l------ &9&l[&fReloaded List&9&l]&7&l ------");
-				Common.sendMessage(player, "&9Blacklisted-world&7:&f [&a✔&f]");
-				Common.sendMessage(player, "&9Player's value:&f [&a✔&f]");
-				Common.sendMessage(player, "&9[&f&l!&9] &cIn case of don't need to auto reset, ");
-				Common.sendMessage(player, "&cput permission &e'PlayerModification.dontreset'.");
-				Common.sendMessage(player, "&cBecause some user have other plugin that modify player's value.");
-				Common.sendMessage(player, "&7&l-------------------------");
+				Common.sendConsoleMessage("&7&l------ &9&l[&fReloaded List&9&l]&7&l ------");
+				Common.sendConsoleMessage("&9Blacklisted-world&7:&f [&aPassed&f]");
+				Common.sendConsoleMessage("&9Player's value:&f [&aPassed&f]");
+				Common.sendConsoleMessage("&9[&f&l!&9] &cIn case of don't need to auto reset, ");
+				Common.sendConsoleMessage("&cput permission &e'PlayerModification.dontreset'.");
+				Common.sendConsoleMessage("&cBecause some user have other plugin that modify player's value.");
+				Common.sendConsoleMessage("&7&l-------------------------");
 
 				for (final String worldName : Common.getWorldNames()) {
 					for (final String BlackListWorldName : Common.getBlackListWorldNames()) {
 						for (final Player plr : Bukkit.getOnlinePlayers()) {
-
 							if (plr.getWorld().getName().equals(BlackListWorldName) && plr.hasPermission("PlayerModification.dontreset")) {
 
 								plr.setCanPickupItems(true);
@@ -131,11 +126,11 @@ public class PlayerModificationCommand implements CommandExecutor {
 				}
 			} else if ("help".equals(param)) {
 
-				sendHelp(player);
+				sendHelp();
 
 			} else if ("reset".equals(param)) {
 
-				Common.sendMessage(player, "&aAll player in blacklisted world has been reset to default.");
+				Common.sendConsoleMessage("&aAll player in blacklisted world has been reset to default.");
 
 				for (final String BlackListWorldName : Common.getBlackListWorldNames()) {
 					for (final Player plr : Bukkit.getOnlinePlayers()) {
@@ -166,33 +161,35 @@ public class PlayerModificationCommand implements CommandExecutor {
 
 
 				PlayerModification.getInstance().disableThisPlugin();
-				sendGoodbye(player);
+				sendGoodbye();
 
 			} else {
-				sendHelp(player);
+				sendHelp();
 			}
 		}
+
+
 
 		return true;
 	}
 
-	private void sendHelp(final Player player) {
-		Common.sendMessage(player, "&5-----------&f[&ePlayerModification 2.2.5&f]&5-----------");
-		Common.sendMessage(player , "&cAliases: /pm&f,&c /pmd");
-		Common.sendMessage(player , "&6/playermodification reload &f- Reload the configuration.");
-		Common.sendMessage(player , "&6/playermodification reset &f- Resetting all player who in the blacklisted world");
-		Common.sendMessage(player , "&6/playermodification disable &f- Disable this plugin &4(If you want to remove)");
-		Common.sendMessage(player , "&6/playermodification help &f- Getting help of this plugin.");
-		Common.sendMessage(player , "&6/pmconsole &f- Command for using console &4(Console only)");
+	private void sendHelp() {
+		Common.sendConsoleMessage("&5-----------&f[&ePlayerModification Console 2.2.5&f]&5-----------");
+		Common.sendConsoleMessage("&cAliases: /pmc&f,&c /pmconsole");
+		Common.sendConsoleMessage("&6/pmc reload &f- Reload the configuration.");
+		Common.sendConsoleMessage("&6/pmc reset &f- Resetting all player who in the blacklisted world");
+		Common.sendConsoleMessage("&6/pmc disable &f- Disable this plugin &4(If you want to remove)");
+		Common.sendConsoleMessage("&6/pmc help &f- Getting help of this plugin.");
+
 	}
 
-	private void sendGoodbye(final Player player) {
-		Common.sendMessage(player, "&7&l------ &9&l[&fPlayerModification v2.3.5&9&l]&7&l ------");
-		Common.sendMessage(player, "&cThank you for using my plugins");
-		Common.sendMessage(player, "&cDid you get bad experience with this plugin?");
-		Common.sendMessage(player, "&cI can help you on my plugin homepage in discussion room");
-		Common.sendMessage(player, "&cor contact me via SpigotMC. (MrDefault)");
-		Common.sendMessage(player, "&eThank you and I hope to see you again.");
-		Common.sendMessage(player, "&7&l--------------------------------");
+	private void sendGoodbye() {
+		Common.sendConsoleMessage("&7&l------ &9&l[&fPlayerModification v2.2.5&9&l]&7&l ------");
+		Common.sendConsoleMessage("&cThank you for using my plugins");
+		Common.sendConsoleMessage("&cDid you get bad experience with this plugin?");
+		Common.sendConsoleMessage("&cI can help you on my plugin homepage in discussion room");
+		Common.sendConsoleMessage("&cor contact me via SpigotMC. (MrDefault)");
+		Common.sendConsoleMessage("&eThank you and I hope to see you again.");
+		Common.sendConsoleMessage("&7&l--------------------------------");
 	}
 }

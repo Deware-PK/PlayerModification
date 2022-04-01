@@ -29,6 +29,7 @@ public class PlayerMainListener implements Listener {
 					player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4);
 					player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(1);
 					player.setCanPickupItems(true);
+					PluginCollection.removeAntiBuildPlayer(player);
 					return;
 
 				} else if (player.getWorld().getName().equals(BlackListWorldName) && !player.hasPermission("PlayerModification.dontreset")) {
@@ -41,6 +42,7 @@ public class PlayerMainListener implements Listener {
 					player.setWalkSpeed(0.2F);
 					player.setFlySpeed(0.1F);
 					PluginCollection.removePvpPlayer(player);
+					PluginCollection.removeAntiBuildPlayer(player);
 					return;
 
 				} else if (player.getWorld().getName().equals(worldName)) {
@@ -62,6 +64,13 @@ public class PlayerMainListener implements Listener {
 					} else {
 						PluginCollection.removePvpPlayer(player);
 					}
+
+					if (config.getSection(worldName).getBoolean("Anti_Build")) {
+						PluginCollection.addAntiBuildingList(player);
+					} else {
+						PluginCollection.removeAntiBuildPlayer(player);
+					}
+
 				}
 			}
 		}
@@ -83,6 +92,7 @@ public class PlayerMainListener implements Listener {
 					player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4);
 					player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(1);
 					player.setCanPickupItems(true);
+					PluginCollection.removeAntiBuildPlayer(player);
 					return;
 
 				} else if (player.getWorld().getName().equals(BlackListWorldName) && !player.hasPermission("PlayerModification.dontreset")) {
@@ -95,6 +105,7 @@ public class PlayerMainListener implements Listener {
 					player.setWalkSpeed(0.2F);
 					player.setFlySpeed(0.1F);
 					PluginCollection.removePvpPlayer(player);
+					PluginCollection.removeAntiBuildPlayer(player);
 					return;
 
 				} else if (player.getWorld().getName().equals(worldName)) {
@@ -117,6 +128,13 @@ public class PlayerMainListener implements Listener {
 					} else {
 						PluginCollection.removePvpPlayer(player);
 					}
+
+					if (config.getSection(worldName).getBoolean("Anti_Build")) {
+						PluginCollection.addAntiBuildingList(player);
+					} else {
+						PluginCollection.removeAntiBuildPlayer(player);
+					}
+
 					return;
 				}
 			}
@@ -131,6 +149,7 @@ public class PlayerMainListener implements Listener {
 				config.setDefault(player.getWorld().getName() + ".Enabled_Pick_Up_Item", true);
 				config.setDefault(player.getWorld().getName() + ".Enabled_Old_Pvp_Mechanics", false);
 				config.setDefault(player.getWorld().getName() + ".Allow_PVP", true);
+				config.setDefault(player.getWorld().getName() + ".Anti_Build", false);
 
 			}
 
@@ -152,6 +171,7 @@ public class PlayerMainListener implements Listener {
 					player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4);
 					player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(1);
 					player.setCanPickupItems(true);
+					PluginCollection.removeAntiBuildPlayer(player);
 					return;
 
 				} else if (player.getWorld().getName().equals(BlackListWorldName) && !player.hasPermission("PlayerModification.dontreset")) {
@@ -164,6 +184,7 @@ public class PlayerMainListener implements Listener {
 					player.setWalkSpeed(0.2F);
 					player.setFlySpeed(0.1F);
 					PluginCollection.removePvpPlayer(player);
+					PluginCollection.removeAntiBuildPlayer(player);
 					return;
 
 				} else if (player.getWorld().getName().equals(worldName)) {
@@ -187,6 +208,12 @@ public class PlayerMainListener implements Listener {
 					} else {
 						PluginCollection.removePvpPlayer(player);
 					}
+
+					if (config.getSection(worldName).getBoolean("Anti_Build")) {
+						PluginCollection.addAntiBuildingList(player);
+					} else {
+						PluginCollection.removeAntiBuildPlayer(player);
+					}
 				}
 			}
 
@@ -200,6 +227,7 @@ public class PlayerMainListener implements Listener {
 				config.setDefault(player.getWorld().getName() + ".Enabled_Pick_Up_Item", true);
 				config.setDefault(player.getWorld().getName() + ".Enabled_Old_Pvp_Mechanics", false);
 				config.setDefault(player.getWorld().getName() + ".Allow_PVP", true);
+				config.setDefault(player.getWorld().getName() + ".Anti_Build", false);
 
 			}
 		}

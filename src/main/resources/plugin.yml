@@ -10,6 +10,8 @@ permissions:
     default: false
   PlayerModification.dontreset:
     default: false
+  playermodification.allowbuild:
+    default: false
 commands:
   playermodification:
     usage: /<command>

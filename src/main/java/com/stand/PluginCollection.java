@@ -9,6 +9,7 @@ import java.util.UUID;
 public class PluginCollection {
 
 	private static final ArrayList<UUID> pvpEnabledList = new ArrayList<>();
+	private static final ArrayList<UUID> antiBuildWorldList = new ArrayList<>();
 
 	public static void addPvpPlayer(final Player player) {
 		pvpEnabledList.add(player.getUniqueId());
@@ -22,7 +23,17 @@ public class PluginCollection {
 		pvpEnabledList.remove(player.getUniqueId());
 	}
 
-	public static void clear() {
-		pvpEnabledList.clear();
+	// -------------------------------------------------------------
+
+	public static void addAntiBuildingList(final Player player) {
+		antiBuildWorldList.add(player.getUniqueId());
+	}
+
+	public static boolean getAntiBuildPlayer(final Player player) {
+		return antiBuildWorldList.contains(player.getUniqueId());
+	}
+
+	public static void removeAntiBuildPlayer(final Player player) {
+		antiBuildWorldList.remove(player.getUniqueId());
 	}
 }

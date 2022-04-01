@@ -3,6 +3,7 @@ package com.stand;
 import com.stand.command.PlayerModificationCommand;
 import com.stand.command.PlayerModificationConsoleCommand;
 import com.stand.command.onTabCompleter;
+import com.stand.listener.PlayerAntiBuildEvent;
 import com.stand.listener.PlayerMainListener;
 import com.stand.listener.PlayerOptionalListener;
 import com.stand.utility.Common;
@@ -41,6 +42,7 @@ public final class PlayerModification extends JavaPlugin {
 
 		getServer().getPluginManager().registerEvents(new PlayerMainListener() , this);
 		getServer().getPluginManager().registerEvents(new PlayerOptionalListener(), this);
+		getServer().getPluginManager().registerEvents(new PlayerAntiBuildEvent(), this);
 
 		getCommand("playermodification").setExecutor(new PlayerModificationCommand());
 		getCommand("playermodificationconsole").setExecutor(new PlayerModificationConsoleCommand());
@@ -56,6 +58,7 @@ public final class PlayerModification extends JavaPlugin {
 			config.setDefault(worldName + ".Enabled_Pick_Up_Item", true);
 			config.setDefault(worldName + ".Enabled_Old_Pvp_Mechanics" , false);
 			config.setDefault(worldName + ".Allow_PVP" , true);
+			config.setDefault(worldName + ".Anti_Build", false);
 		}
 
 
@@ -67,12 +70,13 @@ public final class PlayerModification extends JavaPlugin {
 		config.setDefault("Your_Custom_World_Name" + ".Enabled_Pick_Up_Item", true);
 		config.setDefault("Your_Custom_World_Name" + ".Enabled_Old_Pvp_Mechanics" , false);
 		config.setDefault("Your_Custom_World_Name" + ".Allow_PVP" , true);
+		config.setDefault("Your_Custom_World_Name" + ".Anti_Build", false);
 
 	}
 
 	@Override
 	public void onDisable() {
-		Bukkit.getConsoleSender().sendMessage(Common.colorize("&cPlayerModification_2.2.5 -> Disabled"));
+		Bukkit.getConsoleSender().sendMessage(Common.colorize("&cPlayerModification_2.2.6 -> Disabled"));
 	}
 
 	public void disableThisPlugin() {

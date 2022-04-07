@@ -21,12 +21,13 @@ public class PlayerModificationConsoleCommand implements CommandExecutor {
 	public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
 		final Config config = new Config("Settings", "plugins/PlayerModification");
 		final Yaml yaml = new Yaml("Black-list-world", "plugins/PlayerModification");
+		final Yaml lang = new Yaml("language", "plugins/PlayerModification");
 
 		if (sender instanceof Player) {
 			final Player player = (Player) sender;
 			if (!PlayerUtil.hasPerm(player, "PlayerModification.access")) {
 				Common.sendMessage(player, "&cFor the player using /pm instead.");
-				Common.sendMessage(player,"&cYou don't have permission to access PlayerModification plugin!");
+				Common.sendMessage(player, lang.getString("Do-not-have-permission"));
 				return true;
 			}
 			return true;
@@ -60,7 +61,8 @@ public class PlayerModificationConsoleCommand implements CommandExecutor {
 				Common.sendConsoleMessage("&9Player's value:&f [&aPassed&f]");
 				Common.sendConsoleMessage("&9[&f&l!&9] &cIn case of don't need to auto reset, ");
 				Common.sendConsoleMessage("&cput permission &e'PlayerModification.dontreset'.");
-				Common.sendConsoleMessage("&cBecause some user have other plugin that modify player's value.");
+				Common.sendConsoleMessage("&cBecause some user have other plugin that modify player's");
+				Common.sendConsoleMessage("&cattributes");
 				Common.sendConsoleMessage("&7&l-------------------------");
 
 				for (final String worldName : Common.getWorldNames()) {
@@ -191,7 +193,7 @@ public class PlayerModificationConsoleCommand implements CommandExecutor {
 	}
 
 	private void sendHelp() {
-		Common.sendConsoleMessage("&5-----------&f[&ePlayerModification Console 2.2.6&f]&5-----------");
+		Common.sendConsoleMessage("&5-----------&f[&ePlayerModification Console 2.2.7&f]&5-----------");
 		Common.sendConsoleMessage("&cAliases: /pmc&f,&c /pmconsole");
 		Common.sendConsoleMessage("&6/pmc reload &f- Reload the configuration.");
 		Common.sendConsoleMessage("&6/pmc reset &f- Resetting all player who in the blacklisted world");
@@ -201,7 +203,7 @@ public class PlayerModificationConsoleCommand implements CommandExecutor {
 	}
 
 	private void sendGoodbye() {
-		Common.sendConsoleMessage("&7&l------ &9&l[&fPlayerModification v2.2.6&9&l]&7&l ------");
+		Common.sendConsoleMessage("&7&l------ &9&l[&fPlayerModification v2.2.7&9&l]&7&l ------");
 		Common.sendConsoleMessage("&cThank you for using my plugins");
 		Common.sendConsoleMessage("&cDid you get bad experience with this plugin?");
 		Common.sendConsoleMessage("&cI can help you on my plugin homepage in discussion room");

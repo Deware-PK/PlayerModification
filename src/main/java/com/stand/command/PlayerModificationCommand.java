@@ -21,6 +21,7 @@ public class PlayerModificationCommand implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
+		final Yaml lang = new Yaml("language", "plugins/PlayerModification");
 		final Config config = new Config("Settings", "plugins/PlayerModification");
 		final Yaml yaml = new Yaml("Black-list-world", "plugins/PlayerModification");
 
@@ -32,7 +33,7 @@ public class PlayerModificationCommand implements CommandExecutor {
 		final Player player = (Player) sender;
 
 		if (!PlayerUtil.hasPerm(player , "PlayerModification.access")) {
-			Common.sendMessage(player,"&cYou don't have permission to access PlayerModification plugin!");
+			Common.sendMessage(player,lang.getString("Do-not-have-permission"));
 			return true;
 		}
 
@@ -63,8 +64,9 @@ public class PlayerModificationCommand implements CommandExecutor {
 				Common.sendMessage(player, "&9Blacklisted-world&7:&f [&a✔&f]");
 				Common.sendMessage(player, "&9Player's value:&f [&a✔&f]");
 				Common.sendMessage(player, "&9[&f&l!&9] &cIn case of don't need to auto reset, ");
-				Common.sendMessage(player, "&cput permission &e'PlayerModification.dontreset'.");
-				Common.sendMessage(player, "&cBecause some user have other plugin that modify player's value.");
+				Common.sendMessage(player, "&cput permission &e' PlayerModification.dontreset '.");
+				Common.sendMessage(player, "&cBecause some user have other plugin that modify player's");
+				Common.sendMessage(player , "&cattributes.");
 				Common.sendMessage(player, "&7&l-------------------------");
 
 				for (final String worldName : Common.getWorldNames()) {
@@ -188,7 +190,7 @@ public class PlayerModificationCommand implements CommandExecutor {
 	}
 
 	private void sendHelp(final Player player) {
-		Common.sendMessage(player, "&5-----------&f[&ePlayerModification 2.2.6&f]&5-----------");
+		Common.sendMessage(player, "&5-----------&f[&ePlayerModification 2.2.7&f]&5-----------");
 		Common.sendMessage(player , "&cAliases: /pm&f,&c /pmd");
 		Common.sendMessage(player , "&6/playermodification reload &f- Reload the configuration.");
 		Common.sendMessage(player , "&6/playermodification reset &f- Resetting all player who in the blacklisted world");
@@ -198,7 +200,7 @@ public class PlayerModificationCommand implements CommandExecutor {
 	}
 
 	private void sendGoodbye(final Player player) {
-		Common.sendMessage(player, "&7&l------ &9&l[&fPlayerModification v2.2.6&9&l]&7&l ------");
+		Common.sendMessage(player, "&7&l------ &9&l[&fPlayerModification v2.2.7&9&l]&7&l ------");
 		Common.sendMessage(player, "&cThank you for using my plugins");
 		Common.sendMessage(player, "&cDid you get bad experience with this plugin?");
 		Common.sendMessage(player, "&cI can help you on my plugin homepage in discussion room");

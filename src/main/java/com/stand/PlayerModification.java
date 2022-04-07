@@ -35,10 +35,11 @@ public final class PlayerModification extends JavaPlugin {
 	public void onEnable() {
 
 		instance = this;
+		Language.init();
 		final Config config = new Config("Settings", "plugins/PlayerModification");
 		final Metrics metrics = new Metrics(this , 14648);
 
-		Bukkit.getConsoleSender().sendMessage(Common.colorize("&aPlayerModification_2.2.5 -> Enabled"));
+		Bukkit.getConsoleSender().sendMessage(Common.colorize("&aPlayerModification_2.2.7 -> Enabled"));
 
 		getServer().getPluginManager().registerEvents(new PlayerMainListener() , this);
 		getServer().getPluginManager().registerEvents(new PlayerOptionalListener(), this);
@@ -76,7 +77,7 @@ public final class PlayerModification extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
-		Bukkit.getConsoleSender().sendMessage(Common.colorize("&cPlayerModification_2.2.6 -> Disabled"));
+		Bukkit.getConsoleSender().sendMessage(Common.colorize("&cPlayerModification_2.2.7 -> Disabled"));
 	}
 
 	public void disableThisPlugin() {

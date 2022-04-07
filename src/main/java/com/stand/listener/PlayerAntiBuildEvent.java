@@ -2,6 +2,7 @@ package com.stand.listener;
 
 import com.stand.PluginCollection;
 import com.stand.utility.Common;
+import de.leonhard.storage.Yaml;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,11 +12,12 @@ public class PlayerAntiBuildEvent implements Listener {
 
 	@EventHandler
 	public void onBuild(final BlockPlaceEvent event) {
+		final Yaml yaml = new Yaml("language", "plugins/PlayerModification");
 		final Player player = event.getPlayer();
 
 		if (PluginCollection.getAntiBuildPlayer(player) && !player.hasPermission("PlayerModification.allowbuild")) {
 			event.setBuild(false);
-			Common.sendMessage(player , "&cYou cannot build anything in this world!");
+			Common.sendMessage(player , yaml.getString("Anti-build-message"));
 		}
 	}
 }

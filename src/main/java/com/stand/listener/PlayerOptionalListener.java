@@ -1,7 +1,7 @@
 package com.stand.listener;
 
-import com.stand.PluginCollection;
 import com.stand.utility.Common;
+import com.stand.utility.ListUtil;
 import com.stand.utility.PlayerUtil;
 import de.leonhard.storage.Yaml;
 import org.bukkit.entity.Player;
@@ -22,8 +22,7 @@ public class PlayerOptionalListener implements Listener {
 		if (event.getDamager() instanceof Player && event.getEntity() instanceof Player) {
 			final Player damager = (Player) event.getDamager();
 
-
-			if (PluginCollection.getPvpPlayer(damager) && !PlayerUtil.hasPerm(damager , "PlayerModification.PvpBypass")) {
+			if (ListUtil.getPvpPlayer(damager) && !PlayerUtil.hasPerm(damager , "PlayerModification.PvpBypass")) {
 				event.setCancelled(true);
 				damager.sendMessage(Common.colorize(yaml.getString("Pvp-disable-message")));
 			}
@@ -37,7 +36,7 @@ public class PlayerOptionalListener implements Listener {
 
 				final Player damager = (Player) projectile.getShooter();
 
-				if (PluginCollection.getPvpPlayer(damager) && !PlayerUtil.hasPerm(damager , "PlayerModification.PvpBypass")) {
+				if (ListUtil.getPvpPlayer(damager) && !PlayerUtil.hasPerm(damager , "PlayerModification.PvpBypass")) {
 					event.setCancelled(true);
 					damager.sendMessage(Common.colorize(yaml.getString("Pvp-disable-message")));
 				}

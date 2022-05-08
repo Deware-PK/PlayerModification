@@ -1,7 +1,7 @@
 package com.stand.listener;
 
-import com.stand.PluginCollection;
 import com.stand.utility.Common;
+import com.stand.utility.ListUtil;
 import de.leonhard.storage.Yaml;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,7 +15,7 @@ public class PlayerAntiBuildEvent implements Listener {
 		final Yaml yaml = new Yaml("language", "plugins/PlayerModification");
 		final Player player = event.getPlayer();
 
-		if (PluginCollection.getAntiBuildPlayer(player) && !player.hasPermission("PlayerModification.allowbuild")) {
+		if (ListUtil.getAntiBuildPlayer(player) && !player.hasPermission("PlayerModification.allowbuild")) {
 			event.setBuild(false);
 			Common.sendMessage(player , yaml.getString("Anti-build-message"));
 		}

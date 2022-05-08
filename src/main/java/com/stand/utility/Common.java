@@ -1,7 +1,6 @@
 package com.stand.utility;
 
 import com.stand.PlayerModification;
-import com.stand.WorldManager;
 import com.stand.exception.WorldNotFoundException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -49,7 +48,7 @@ public class Common {
 	@SneakyThrows
 	public static Set<String> getBlackListWorldNames() {
 
-	 	for (final World world : WorldManager.blackListedWorlds)
+	 	for (final World world : ListUtil.blackListedWorlds)
 			 try {
 				 blWorlds.add(world.getName());
 			 } catch (final NullPointerException ex) {
@@ -113,4 +112,14 @@ public class Common {
 	public static void clearBlackListWorld() {
 		blWorlds.clear();
 	}
+
+	public static Player getPlayerInWorld(final World world) {
+
+		for (final Player player : world.getPlayers())
+			return player;
+
+		return null;
+	}
+
+
 }

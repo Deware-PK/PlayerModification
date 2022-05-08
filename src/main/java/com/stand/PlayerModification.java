@@ -1,12 +1,14 @@
 package com.stand;
 
+import com.stand.command.OnTabCompleter;
 import com.stand.command.PlayerModificationCommand;
 import com.stand.command.PlayerModificationConsoleCommand;
-import com.stand.command.onTabCompleter;
 import com.stand.listener.PlayerAntiBuildEvent;
 import com.stand.listener.PlayerMainListener;
 import com.stand.listener.PlayerOptionalListener;
 import com.stand.utility.Common;
+import com.stand.utility.Language;
+import com.stand.utility.ListUtil;
 import de.leonhard.storage.Config;
 import de.leonhard.storage.Yaml;
 import lombok.SneakyThrows;
@@ -39,7 +41,7 @@ public final class PlayerModification extends JavaPlugin {
 		final Config config = new Config("Settings", "plugins/PlayerModification");
 		final Metrics metrics = new Metrics(this , 14648);
 
-		Bukkit.getConsoleSender().sendMessage(Common.colorize("&aPlayerModification_2.2.7 -> Enabled"));
+		Bukkit.getConsoleSender().sendMessage(Common.colorize("&a" + getVersion() + " -> Enabled"));
 
 		getServer().getPluginManager().registerEvents(new PlayerMainListener() , this);
 		getServer().getPluginManager().registerEvents(new PlayerOptionalListener(), this);
@@ -47,7 +49,7 @@ public final class PlayerModification extends JavaPlugin {
 
 		getCommand("playermodification").setExecutor(new PlayerModificationCommand());
 		getCommand("playermodificationconsole").setExecutor(new PlayerModificationConsoleCommand());
-		getCommand("playermodification").setTabCompleter(new onTabCompleter());
+		getCommand("playermodification").setTabCompleter(new OnTabCompleter());
 
 
 		for (final String worldName : Common.getWorldNames()) {
@@ -77,7 +79,7 @@ public final class PlayerModification extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
-		Bukkit.getConsoleSender().sendMessage(Common.colorize("&cPlayerModification_2.2.7 -> Disabled"));
+		Bukkit.getConsoleSender().sendMessage(Common.colorize("&c" + getVersion() + " -> Disabled"));
 	}
 
 	public void disableThisPlugin() {
@@ -98,10 +100,13 @@ public final class PlayerModification extends JavaPlugin {
 			Common.fixBlackListNull();
 		} else {
 			for (final String world : BlackListWorldName) {
-				WorldManager.blackListedWorlds.add(Bukkit.getWorld(world));
+				ListUtil.blackListedWorlds.add(Bukkit.getWorld(world));
 			}
 		}
 	}
 
 
+	public String getVersion() {
+		return "PlayerModification_2.2.8";
+	}
 }

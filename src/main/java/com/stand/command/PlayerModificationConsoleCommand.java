@@ -1,9 +1,8 @@
 package com.stand.command;
 
 import com.stand.PlayerModification;
-import com.stand.PluginCollection;
-import com.stand.WorldManager;
 import com.stand.utility.Common;
+import com.stand.utility.ListUtil;
 import com.stand.utility.PlayerUtil;
 import de.leonhard.storage.Config;
 import de.leonhard.storage.Yaml;
@@ -42,7 +41,7 @@ public class PlayerModificationConsoleCommand implements CommandExecutor {
 
 			if ("reload".equals(param)) {
 
-				WorldManager.blackListedWorlds.clear();
+				ListUtil.blackListedWorlds.clear();
 				Common.clearBlackListWorld();
 
 				final List<String> bl = yaml.getStringList("Black_List");
@@ -52,7 +51,7 @@ public class PlayerModificationConsoleCommand implements CommandExecutor {
 				} else {
 					for (final String world : bl) {
 						Common.removeNullFixer();
-						WorldManager.blackListedWorlds.add(Bukkit.getWorld(world));
+						ListUtil.blackListedWorlds.add(Bukkit.getWorld(world));
 					}
 				}
 
@@ -67,14 +66,15 @@ public class PlayerModificationConsoleCommand implements CommandExecutor {
 
 				for (final String worldName : Common.getWorldNames()) {
 					for (final String BlackListWorldName : Common.getBlackListWorldNames()) {
-						for (final Player plr : Bukkit.getOnlinePlayers()) {
+						for (final Player plr : Bukkit.getWorld(worldName).getPlayers()) {
+
 							if (plr.getWorld().getName().equals(BlackListWorldName) && plr.hasPermission("PlayerModification.dontreset")) {
 
 								plr.setCanPickupItems(true);
 								plr.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4);
 								plr.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(1);
-								PluginCollection.removePvpPlayer(plr);
-								PluginCollection.removeAntiBuildPlayer(plr);
+								ListUtil.removePvpPlayer(plr);
+								ListUtil.removeAntiBuildPlayer(plr);
 								return true;
 
 							} else if (plr.getWorld().getName().equals(BlackListWorldName) && !plr.hasPermission("PlayerModification.dontreset")) {
@@ -86,8 +86,8 @@ public class PlayerModificationConsoleCommand implements CommandExecutor {
 								plr.setCanPickupItems(true);
 								plr.setWalkSpeed(0.2F);
 								plr.setFlySpeed(0.1F);
-								PluginCollection.removePvpPlayer(plr);
-								PluginCollection.removeAntiBuildPlayer(plr);
+								ListUtil.removePvpPlayer(plr);
+								ListUtil.removeAntiBuildPlayer(plr);
 								return true;
 
 							} else if (plr.getWorld().getName().equals(worldName)) {
@@ -106,21 +106,21 @@ public class PlayerModificationConsoleCommand implements CommandExecutor {
 								}
 
 								if (!config.getSection(worldName).getBoolean("Allow_PVP")) {
-									PluginCollection.addPvpPlayer(plr);
+									ListUtil.addPvpPlayer(plr);
 								} else {
-									PluginCollection.removePvpPlayer(plr);
+									ListUtil.removePvpPlayer(plr);
 								}
 
 								if (config.getSection(worldName).getBoolean("Anti_Build")) {
-									PluginCollection.addAntiBuildingList(plr);
+									ListUtil.addAntiBuildingList(plr);
 								} else {
-									PluginCollection.removeAntiBuildPlayer(plr);
+									ListUtil.removeAntiBuildPlayer(plr);
 								}
 
 								if (config.getSection(worldName).getBoolean("Anti_Build")) {
-									PluginCollection.addAntiBuildingList(plr);
+									ListUtil.addAntiBuildingList(plr);
 								} else {
-									PluginCollection.removeAntiBuildPlayer(plr);
+									ListUtil.removeAntiBuildPlayer(plr);
 								}
 
 
@@ -159,8 +159,8 @@ public class PlayerModificationConsoleCommand implements CommandExecutor {
 							plr.setCanPickupItems(true);
 							plr.setWalkSpeed(0.2F);
 							plr.setFlySpeed(0.1F);
-							PluginCollection.removePvpPlayer(plr);
-							PluginCollection.removeAntiBuildPlayer(plr);
+							ListUtil.removePvpPlayer(plr);
+							ListUtil.removeAntiBuildPlayer(plr);
 						}
 					}
 				}
@@ -174,8 +174,8 @@ public class PlayerModificationConsoleCommand implements CommandExecutor {
 					plr.setCanPickupItems(true);
 					plr.setWalkSpeed(0.2F);
 					plr.setFlySpeed(0.1F);
-					PluginCollection.removePvpPlayer(plr);
-					PluginCollection.removeAntiBuildPlayer(plr);
+					ListUtil.removePvpPlayer(plr);
+					ListUtil.removeAntiBuildPlayer(plr);
 				}
 
 
@@ -193,7 +193,7 @@ public class PlayerModificationConsoleCommand implements CommandExecutor {
 	}
 
 	private void sendHelp() {
-		Common.sendConsoleMessage("&5-----------&f[&ePlayerModification Console 2.2.7&f]&5-----------");
+		Common.sendConsoleMessage("&5-----------&f[&ePlayerModification Console 2.2.8&f]&5-----------");
 		Common.sendConsoleMessage("&cAliases: /pmc&f,&c /pmconsole");
 		Common.sendConsoleMessage("&6/pmc reload &f- Reload the configuration.");
 		Common.sendConsoleMessage("&6/pmc reset &f- Resetting all player who in the blacklisted world");
@@ -203,7 +203,7 @@ public class PlayerModificationConsoleCommand implements CommandExecutor {
 	}
 
 	private void sendGoodbye() {
-		Common.sendConsoleMessage("&7&l------ &9&l[&fPlayerModification v2.2.7&9&l]&7&l ------");
+		Common.sendConsoleMessage("&7&l------ &9&l[&fPlayerModification v2.2.8&9&l]&7&l ------");
 		Common.sendConsoleMessage("&cThank you for using my plugins");
 		Common.sendConsoleMessage("&cDid you get bad experience with this plugin?");
 		Common.sendConsoleMessage("&cI can help you on my plugin homepage in discussion room");

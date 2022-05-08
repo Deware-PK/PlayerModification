@@ -1,9 +1,8 @@
 package com.stand.command;
 
 import com.stand.PlayerModification;
-import com.stand.PluginCollection;
-import com.stand.WorldManager;
 import com.stand.utility.Common;
+import com.stand.utility.ListUtil;
 import com.stand.utility.PlayerUtil;
 import de.leonhard.storage.Config;
 import de.leonhard.storage.Yaml;
@@ -46,7 +45,7 @@ public class PlayerModificationCommand implements CommandExecutor {
 
 			if ("reload".equals(param)) {
 
-				WorldManager.blackListedWorlds.clear();
+				ListUtil.blackListedWorlds.clear();
 				Common.clearBlackListWorld();
 
 				final List<String> bl = yaml.getStringList("Black_List");
@@ -56,7 +55,7 @@ public class PlayerModificationCommand implements CommandExecutor {
 				} else {
 					for (final String world : bl) {
 						Common.removeNullFixer();
-						WorldManager.blackListedWorlds.add(Bukkit.getWorld(world));
+						ListUtil.blackListedWorlds.add(Bukkit.getWorld(world));
 					}
 				}
 
@@ -64,22 +63,22 @@ public class PlayerModificationCommand implements CommandExecutor {
 				Common.sendMessage(player, "&9Blacklisted-world&7:&f [&a✔&f]");
 				Common.sendMessage(player, "&9Player's value:&f [&a✔&f]");
 				Common.sendMessage(player, "&9[&f&l!&9] &cIn case of don't need to auto reset, ");
-				Common.sendMessage(player, "&cput permission &e' PlayerModification.dontreset '.");
+				Common.sendMessage(player, "&cput permission &8' &ePlayerModification.dontreset &8'.");
 				Common.sendMessage(player, "&cBecause some user have other plugin that modify player's");
 				Common.sendMessage(player , "&cattributes.");
 				Common.sendMessage(player, "&7&l-------------------------");
 
 				for (final String worldName : Common.getWorldNames()) {
 					for (final String BlackListWorldName : Common.getBlackListWorldNames()) {
-						for (final Player plr : Bukkit.getOnlinePlayers()) {
+						for (final Player plr : Bukkit.getWorld(worldName).getPlayers()) {
 
 							if (plr.getWorld().getName().equals(BlackListWorldName) && plr.hasPermission("PlayerModification.dontreset")) {
 
 								plr.setCanPickupItems(true);
 								plr.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4);
 								plr.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(1);
-								PluginCollection.removePvpPlayer(plr);
-								PluginCollection.removeAntiBuildPlayer(plr);
+								ListUtil.removePvpPlayer(plr);
+								ListUtil.removeAntiBuildPlayer(plr);
 								return true;
 
 							} else if (plr.getWorld().getName().equals(BlackListWorldName) && !plr.hasPermission("PlayerModification.dontreset")) {
@@ -91,8 +90,8 @@ public class PlayerModificationCommand implements CommandExecutor {
 								plr.setCanPickupItems(true);
 								plr.setWalkSpeed(0.2F);
 								plr.setFlySpeed(0.1F);
-								PluginCollection.removePvpPlayer(plr);
-								PluginCollection.removeAntiBuildPlayer(plr);
+								ListUtil.removePvpPlayer(plr);
+								ListUtil.removeAntiBuildPlayer(plr);
 								return true;
 
 							} else if (plr.getWorld().getName().equals(worldName)) {
@@ -111,15 +110,15 @@ public class PlayerModificationCommand implements CommandExecutor {
 								}
 
 								if (!config.getSection(worldName).getBoolean("Allow_PVP")) {
-									PluginCollection.addPvpPlayer(plr);
+									ListUtil.addPvpPlayer(plr);
 								} else {
-									PluginCollection.removePvpPlayer(plr);
+									ListUtil.removePvpPlayer(plr);
 								}
 
 								if (config.getSection(worldName).getBoolean("Anti_Build")) {
-									PluginCollection.addAntiBuildingList(plr);
+									ListUtil.addAntiBuildingList(plr);
 								} else {
-									PluginCollection.removeAntiBuildPlayer(plr);
+									ListUtil.removeAntiBuildPlayer(plr);
 								}
 
 
@@ -158,8 +157,8 @@ public class PlayerModificationCommand implements CommandExecutor {
 							plr.setCanPickupItems(true);
 							plr.setWalkSpeed(0.2F);
 							plr.setFlySpeed(0.1F);
-							PluginCollection.removePvpPlayer(plr);
-							PluginCollection.removeAntiBuildPlayer(plr);
+							ListUtil.removePvpPlayer(plr);
+							ListUtil.removeAntiBuildPlayer(plr);
 						}
 					}
 				}
@@ -173,10 +172,9 @@ public class PlayerModificationCommand implements CommandExecutor {
 					plr.setCanPickupItems(true);
 					plr.setWalkSpeed(0.2F);
 					plr.setFlySpeed(0.1F);
-					PluginCollection.removePvpPlayer(plr);
-					PluginCollection.removeAntiBuildPlayer(plr);
+					ListUtil.removePvpPlayer(plr);
+					ListUtil.removeAntiBuildPlayer(plr);
 				}
-
 
 				PlayerModification.getInstance().disableThisPlugin();
 				sendGoodbye(player);
@@ -190,7 +188,7 @@ public class PlayerModificationCommand implements CommandExecutor {
 	}
 
 	private void sendHelp(final Player player) {
-		Common.sendMessage(player, "&5-----------&f[&ePlayerModification 2.2.7&f]&5-----------");
+		Common.sendMessage(player, "&5-----------&f[&ePlayerModification 2.2.8&f]&5-----------");
 		Common.sendMessage(player , "&cAliases: /pm&f,&c /pmd");
 		Common.sendMessage(player , "&6/playermodification reload &f- Reload the configuration.");
 		Common.sendMessage(player , "&6/playermodification reset &f- Resetting all player who in the blacklisted world");
@@ -200,7 +198,7 @@ public class PlayerModificationCommand implements CommandExecutor {
 	}
 
 	private void sendGoodbye(final Player player) {
-		Common.sendMessage(player, "&7&l------ &9&l[&fPlayerModification v2.2.7&9&l]&7&l ------");
+		Common.sendMessage(player, "&7&l------ &9&l[&fPlayerModification v2.2.8&9&l]&7&l ------");
 		Common.sendMessage(player, "&cThank you for using my plugins");
 		Common.sendMessage(player, "&cDid you get bad experience with this plugin?");
 		Common.sendMessage(player, "&cI can help you on my plugin homepage in discussion room");

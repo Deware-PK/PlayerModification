@@ -1,6 +1,7 @@
 package com.stand.command;
 
 import com.stand.PlayerModification;
+import com.stand.enums.Locale;
 import com.stand.utility.Common;
 import com.stand.utility.ListUtil;
 import com.stand.utility.PlayerUtil;
@@ -16,17 +17,17 @@ import org.bukkit.entity.Player;
 import java.util.List;
 
 public class PlayerModificationConsoleCommand implements CommandExecutor {
+
 	@Override
 	public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
 		final Config config = new Config("Settings", "plugins/PlayerModification");
 		final Yaml yaml = new Yaml("Black-list-world", "plugins/PlayerModification");
-		final Yaml lang = new Yaml("language", "plugins/PlayerModification");
 
 		if (sender instanceof Player) {
 			final Player player = (Player) sender;
 			if (!PlayerUtil.hasPerm(player, "PlayerModification.access")) {
 				Common.sendMessage(player, "&cFor the player using /pm instead.");
-				Common.sendMessage(player, lang.getString("Do-not-have-permission"));
+				Locale.NO_PERMISSION.sendMessage(player);
 				return true;
 			}
 			return true;
@@ -122,21 +123,6 @@ public class PlayerModificationConsoleCommand implements CommandExecutor {
 								} else {
 									ListUtil.removeAntiBuildPlayer(plr);
 								}
-
-
-								if (!plr.getWorld().getName().equals(worldName)) {
-
-									config.setDefault(plr.getWorld().getName() + ".Health", 20.0D);
-									config.setDefault(plr.getWorld().getName() + ".Health_Scale", 20.0D);
-									config.setDefault(plr.getWorld().getName() + ".Attack_Damage", 1.0D);
-									config.setDefault(plr.getWorld().getName() + ".Movement_Speed", 0.2F);
-									config.setDefault(plr.getWorld().getName() + ".Flying_Speed", 0.1F);
-									config.setDefault(plr.getWorld().getName() + ".Enabled_Pick_Up_Item", true);
-									config.setDefault(plr.getWorld().getName() + ".Enabled_Old_Pvp_Mechanics", false);
-									config.setDefault(plr.getWorld().getName() + ".Allow_PVP", true);
-									config.setDefault(plr.getWorld().getName() + ".Anti_Build", false);
-								}
-
 							}
 						}
 					}
@@ -193,7 +179,7 @@ public class PlayerModificationConsoleCommand implements CommandExecutor {
 	}
 
 	private void sendHelp() {
-		Common.sendConsoleMessage("&5-----------&f[&ePlayerModification Console 2.2.8&f]&5-----------");
+		Common.sendConsoleMessage("&5-----------&f[&ePlayerModification Console 2.2.9&f]&5-----------");
 		Common.sendConsoleMessage("&cAliases: /pmc&f,&c /pmconsole");
 		Common.sendConsoleMessage("&6/pmc reload &f- Reload the configuration.");
 		Common.sendConsoleMessage("&6/pmc reset &f- Resetting all player who in the blacklisted world");
@@ -203,7 +189,7 @@ public class PlayerModificationConsoleCommand implements CommandExecutor {
 	}
 
 	private void sendGoodbye() {
-		Common.sendConsoleMessage("&7&l------ &9&l[&fPlayerModification v2.2.8&9&l]&7&l ------");
+		Common.sendConsoleMessage("&7&l------ &9&l[&fPlayerModification v2.2.9&9&l]&7&l ------");
 		Common.sendConsoleMessage("&cThank you for using my plugins");
 		Common.sendConsoleMessage("&cDid you get bad experience with this plugin?");
 		Common.sendConsoleMessage("&cI can help you on my plugin homepage in discussion room");

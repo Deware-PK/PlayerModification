@@ -56,7 +56,7 @@ public class Common {
 					 Bukkit.dispatchCommand(Bukkit.getConsoleSender() , "pmc reload");
 				 } catch (final NullPointerException exception) {
 					 Bukkit.getConsoleSender().sendMessage(Common.colorize("&cWorld's name in black-list-world.yml is invalid. Please specific correctly otherwise this plugin won't work."));
-					 throw new WorldNotFoundException("World's name in black-list-world.yml is invalid. Please specific correctly otherwise this plugin won't work.");
+					 throw new WorldNotFoundException("Worlds' name in black-list-world.yml is invalid. Please specific correctly otherwise this plugin won't work.");
 				 }
 			 }
 
@@ -101,6 +101,7 @@ public class Common {
 		return null;
 	}
 
+
 	public static void fixBlackListNull() {
 		blWorlds.add("NullFixer");
 	}
@@ -111,14 +112,6 @@ public class Common {
 
 	public static void clearBlackListWorld() {
 		blWorlds.clear();
-	}
-
-	public static Player getPlayerInWorld(final World world) {
-
-		for (final Player player : world.getPlayers())
-			return player;
-
-		return null;
 	}
 
 

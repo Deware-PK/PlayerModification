@@ -4,6 +4,8 @@ import de.leonhard.storage.Yaml;
 
 public class Language {
 
+	// This class used to load Language.yml if it doesn't exist.
+
 	public static void init() {
 
 		final Yaml yaml = new Yaml("language", "plugins/PlayerModification");

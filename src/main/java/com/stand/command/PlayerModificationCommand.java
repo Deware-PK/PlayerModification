@@ -1,6 +1,7 @@
 package com.stand.command;
 
 import com.stand.PlayerModification;
+import com.stand.enums.Locale;
 import com.stand.utility.Common;
 import com.stand.utility.ListUtil;
 import com.stand.utility.PlayerUtil;
@@ -20,9 +21,10 @@ public class PlayerModificationCommand implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
-		final Yaml lang = new Yaml("language", "plugins/PlayerModification");
 		final Config config = new Config("Settings", "plugins/PlayerModification");
 		final Yaml yaml = new Yaml("Black-list-world", "plugins/PlayerModification");
+
+		// --
 
 		if (sender instanceof ConsoleCommandSender) {
 			Bukkit.getConsoleSender().sendMessage(Common.colorize("&cFor the console using '/pmc' instead."));
@@ -32,13 +34,15 @@ public class PlayerModificationCommand implements CommandExecutor {
 		final Player player = (Player) sender;
 
 		if (!PlayerUtil.hasPerm(player , "PlayerModification.access")) {
-			Common.sendMessage(player,lang.getString("Do-not-have-permission"));
+			Locale.NO_PERMISSION.sendMessage(player);
 			return true;
 		}
 
 		if (args.length < 1) {
 			sendHelp(player);
 		}
+
+		// --
 
 		if (args.length == 1) {
 			final String param = args[0].toLowerCase();
@@ -121,20 +125,6 @@ public class PlayerModificationCommand implements CommandExecutor {
 									ListUtil.removeAntiBuildPlayer(plr);
 								}
 
-
-								if (!plr.getWorld().getName().equals(worldName)) {
-
-									config.setDefault(plr.getWorld().getName() + ".Health", 20.0D);
-									config.setDefault(plr.getWorld().getName() + ".Health_Scale", 20.0D);
-									config.setDefault(plr.getWorld().getName() + ".Attack_Damage", 1.0D);
-									config.setDefault(plr.getWorld().getName() + ".Movement_Speed", 0.2F);
-									config.setDefault(plr.getWorld().getName() + ".Flying_Speed", 0.1F);
-									config.setDefault(plr.getWorld().getName() + ".Enabled_Pick_Up_Item", true);
-									config.setDefault(plr.getWorld().getName() + ".Enabled_Old_Pvp_Mechanics", false);
-									config.setDefault(plr.getWorld().getName() + ".Allow_PVP", true);
-									config.setDefault(plr.getWorld().getName() + ".Anti_Build", false);
-								}
-
 							}
 						}
 					}
@@ -188,7 +178,7 @@ public class PlayerModificationCommand implements CommandExecutor {
 	}
 
 	private void sendHelp(final Player player) {
-		Common.sendMessage(player, "&5-----------&f[&ePlayerModification 2.2.8&f]&5-----------");
+		Common.sendMessage(player, "&5-----------&f[&ePlayerModification {version}&f]&5-----------".replace("{version}" , PlayerModification.getInstance().getVersion()));
 		Common.sendMessage(player , "&cAliases: /pm&f,&c /pmd");
 		Common.sendMessage(player , "&6/playermodification reload &f- Reload the configuration.");
 		Common.sendMessage(player , "&6/playermodification reset &f- Resetting all player who in the blacklisted world");
@@ -198,7 +188,7 @@ public class PlayerModificationCommand implements CommandExecutor {
 	}
 
 	private void sendGoodbye(final Player player) {
-		Common.sendMessage(player, "&7&l------ &9&l[&fPlayerModification v2.2.8&9&l]&7&l ------");
+		Common.sendMessage(player, "&7&l------ &9&l[&fPlayerModification {version}&9&l]&7&l ------".replace("{version}" , PlayerModification.getInstance().getVersion()));
 		Common.sendMessage(player, "&cThank you for using my plugins");
 		Common.sendMessage(player, "&cDid you get bad experience with this plugin?");
 		Common.sendMessage(player, "&cI can help you on my plugin homepage in discussion room");

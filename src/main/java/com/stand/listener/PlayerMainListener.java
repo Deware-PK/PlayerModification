@@ -11,6 +11,8 @@ import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
+import java.util.function.BiConsumer;
+
 public class PlayerMainListener implements Listener {
 
 	@EventHandler
@@ -28,73 +30,68 @@ public class PlayerMainListener implements Listener {
 
 	}
 
+	/**
+	 * This method have to custom it own. It isn't as same as other method.
+	 */
 	@EventHandler
 	public void onPlayerRespawn(final PlayerRespawnEvent event) {
 		final Player player = event.getPlayer();
 		final Config config = new Config("Settings", "plugins/PlayerModification");
 
-		for (final String worldName : Common.getWorldNames()) {
+		blacklistAndWhitelist((worldName, BlackListWorldName) -> {
+			if (player.getWorld().getName().equals(BlackListWorldName) && player.hasPermission("PlayerModification.dontreset")) {
 
-			for (final String BlackListWorldName : Common.getBlackListWorldNames()) {
+				ListUtil.removePvpPlayer(player);
+				player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4);
+				player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(1);
+				player.setCanPickupItems(true);
+				ListUtil.removeAntiBuildPlayer(player);
 
-				if (player.getWorld().getName().equals(BlackListWorldName) && player.hasPermission("PlayerModification.dontreset")) {
+			} else if (player.getWorld().getName().equals(BlackListWorldName) && !player.hasPermission("PlayerModification.dontreset")) {
 
-					ListUtil.removePvpPlayer(player);
+				player.resetMaxHealth();
+				player.setHealthScale(20.0D);
+				player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4);
+				player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(1);
+				player.setCanPickupItems(true);
+				player.setWalkSpeed(0.2F);
+				player.setFlySpeed(0.1F);
+				ListUtil.removePvpPlayer(player);
+				ListUtil.removeAntiBuildPlayer(player);
+
+			} else if (player.getWorld().getName().equals(worldName)) {
+
+				player.setHealth(config.getSection(worldName).getDouble("Health"));
+				player.setHealthScale(config.getSection(worldName).getDouble("Health_Scale"));
+				player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(config.getSection(worldName).getDouble("Health"));
+				player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(config.getSection(worldName).getDouble("Attack_Damage"));
+				player.setWalkSpeed(config.getSection(worldName).getFloat("Movement_Speed"));
+				player.setFlySpeed(config.getSection(worldName).getFloat("Flying_Speed"));
+				player.setCanPickupItems(config.getSection(worldName).getBoolean("Enabled_Pick_Up_Item"));
+
+				if (config.getSection(worldName).getBoolean("Enabled_Old_Pvp_Mechanics")) {
+					player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(16);
+				} else {
 					player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4);
-					player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(1);
-					player.setCanPickupItems(true);
-					ListUtil.removeAntiBuildPlayer(player);
-					return;
+				}
 
-				} else if (player.getWorld().getName().equals(BlackListWorldName) && !player.hasPermission("PlayerModification.dontreset")) {
-
-					player.resetMaxHealth();
-					player.setHealthScale(20.0D);
-					player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4);
-					player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(1);
-					player.setCanPickupItems(true);
-					player.setWalkSpeed(0.2F);
-					player.setFlySpeed(0.1F);
+				if (!config.getSection(worldName).getBoolean("Allow_PVP")) {
+					ListUtil.addPvpPlayer(player);
+				} else {
 					ListUtil.removePvpPlayer(player);
+				}
+
+				if (config.getSection(worldName).getBoolean("Anti_Build")) {
+					ListUtil.addAntiBuildingList(player);
+				} else {
 					ListUtil.removeAntiBuildPlayer(player);
-					return;
-
-				} else if (player.getWorld().getName().equals(worldName)) {
-
-					player.setHealth(config.getSection(worldName).getDouble("Health"));
-					player.setHealthScale(config.getSection(worldName).getDouble("Health_Scale"));
-					player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(config.getSection(worldName).getDouble("Health"));
-					player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(config.getSection(worldName).getDouble("Attack_Damage"));
-					player.setWalkSpeed(config.getSection(worldName).getFloat("Movement_Speed"));
-					player.setFlySpeed(config.getSection(worldName).getFloat("Flying_Speed"));
-					player.setCanPickupItems(config.getSection(worldName).getBoolean("Enabled_Pick_Up_Item"));
-
-					if (config.getSection(worldName).getBoolean("Enabled_Old_Pvp_Mechanics")) {
-						player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(16);
-					} else {
-						player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4);
-					}
-
-					if (!config.getSection(worldName).getBoolean("Allow_PVP")) {
-						ListUtil.addPvpPlayer(player);
-					} else {
-						ListUtil.removePvpPlayer(player);
-					}
-
-					if (config.getSection(worldName).getBoolean("Anti_Build")) {
-						ListUtil.addAntiBuildingList(player);
-					} else {
-						ListUtil.removeAntiBuildPlayer(player);
-					}
 				}
 			}
-
-
-		}
+		});
 
 	}
 
-	public void worldScanner(final Player player) {
+	private void worldScanner(final Player player) {
 		final Config config = new Config("Settings", "plugins/PlayerModification");
 
 		for (final String worldName : Common.getWorldNames()) {
@@ -114,64 +111,67 @@ public class PlayerMainListener implements Listener {
 		}
 	}
 
-	public void core(final Player player) {
+	private void core(final Player player) {
 		final Config config = new Config("Settings", "plugins/PlayerModification");
 
+		blacklistAndWhitelist((worldName, BlackListWorldName) -> {
 
-		for (final String worldName : Common.getWorldNames()) {
+			if (player.getWorld().getName().equals(BlackListWorldName) && player.hasPermission("PlayerModification.dontreset")) {
 
-			for (final String BlackListWorldName : Common.getBlackListWorldNames()) {
+				ListUtil.removePvpPlayer(player);
+				player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4);
+				player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(1);
+				player.setCanPickupItems(true);
+				ListUtil.removeAntiBuildPlayer(player);
 
-				if (player.getWorld().getName().equals(BlackListWorldName) && player.hasPermission("PlayerModification.dontreset")) {
 
-					ListUtil.removePvpPlayer(player);
+			} else if (player.getWorld().getName().equals(BlackListWorldName) && !player.hasPermission("PlayerModification.dontreset")) {
+
+				player.resetMaxHealth();
+				player.setHealthScale(20.0D);
+				player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4);
+				player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(1);
+				player.setCanPickupItems(true);
+				player.setWalkSpeed(0.2F);
+				player.setFlySpeed(0.1F);
+				ListUtil.removePvpPlayer(player);
+				ListUtil.removeAntiBuildPlayer(player);
+
+			} else if (player.getWorld().getName().equals(worldName)) {
+
+				player.setHealthScale(config.getSection(worldName).getDouble("Health_Scale"));
+				player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(config.getSection(worldName).getDouble("Health"));
+				player.setWalkSpeed(config.getSection(worldName).getFloat("Movement_Speed"));
+				player.setFlySpeed(config.getSection(worldName).getFloat("Flying_Speed"));
+				player.setCanPickupItems(config.getSection(worldName).getBoolean("Enabled_Pick_Up_Item"));
+				player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(config.getSection(worldName).getDouble("Attack_Damage"));
+
+				if (config.getSection(worldName).getBoolean("Enabled_Old_Pvp_Mechanics")) {
+					player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(16);
+				} else {
 					player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4);
-					player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(1);
-					player.setCanPickupItems(true);
-					ListUtil.removeAntiBuildPlayer(player);
-					return;
+				}
 
-				} else if (player.getWorld().getName().equals(BlackListWorldName) && !player.hasPermission("PlayerModification.dontreset")) {
-
-					player.resetMaxHealth();
-					player.setHealthScale(20.0D);
-					player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4);
-					player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(1);
-					player.setCanPickupItems(true);
-					player.setWalkSpeed(0.2F);
-					player.setFlySpeed(0.1F);
+				if (!config.getSection(worldName).getBoolean("Allow_PVP")) {
+					ListUtil.addPvpPlayer(player);
+				} else {
 					ListUtil.removePvpPlayer(player);
+				}
+
+				if (config.getSection(worldName).getBoolean("Anti_Build")) {
+					ListUtil.addAntiBuildingList(player);
+				} else {
 					ListUtil.removeAntiBuildPlayer(player);
-					return;
-
-				} else if (player.getWorld().getName().equals(worldName)) {
-					player.setHealthScale(config.getSection(worldName).getDouble("Health_Scale"));
-					player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(config.getSection(worldName).getDouble("Health"));
-					player.setWalkSpeed(config.getSection(worldName).getFloat("Movement_Speed"));
-					player.setFlySpeed(config.getSection(worldName).getFloat("Flying_Speed"));
-					player.setCanPickupItems(config.getSection(worldName).getBoolean("Enabled_Pick_Up_Item"));
-					player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(config.getSection(worldName).getDouble("Attack_Damage"));
-
-					if (config.getSection(worldName).getBoolean("Enabled_Old_Pvp_Mechanics")) {
-						player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(16);
-					} else {
-						player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4);
-					}
-
-					if (!config.getSection(worldName).getBoolean("Allow_PVP")) {
-						ListUtil.addPvpPlayer(player);
-					} else {
-						ListUtil.removePvpPlayer(player);
-					}
-
-					if (config.getSection(worldName).getBoolean("Anti_Build")) {
-						ListUtil.addAntiBuildingList(player);
-					} else {
-						ListUtil.removeAntiBuildPlayer(player);
-					}
-
 				}
 			}
+		});
+
+	}
+
+	private void blacklistAndWhitelist(final BiConsumer<String , String> consumer) {
+		for (final String worldName : Common.getWorldNames()) {
+			for (final String BlackListWorldName : Common.getBlackListWorldNames())
+				consumer.accept(worldName, BlackListWorldName);
 		}
 	}
 }

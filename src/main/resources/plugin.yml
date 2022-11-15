@@ -1,23 +1,14 @@
-name: PlayerModification
-version: '${project.version}'
-main: com.stand.PlayerModification
-authors: [ MrDefault ]
-description: The plugin which allows you to modify player's values per-world.
-permissions:
-  PlayerModification.access:
-    default: op
-  PlayerModification.PvpBypass:
-    default: false
-  PlayerModification.dontreset:
-    default: false
-  playermodification.allowbuild:
-    default: false
-commands:
-  playermodification:
-    usage: /<command>
-    aliases: [pm, pmd]
-    description: Usage of Player modfication plugin.
-  playermodificationconsole:
-    usage: /<command>
-    aliases: [pmc,pmconsole]
-    description: Using this plugin via console.
+name: ${project.name}
+version: ${project.version}
+main: ${main.class}
+author: ${author}
+
+api-version: 1.13
+
+libraries:
+  - org.openjdk.nashorn:nashorn-core:15.4
+  #- org.jsoup:jsoup:1.14.3
+  #- com.zaxxer:HikariCP:5.0.1
+
+softdepend: [AuthMe, BanManager, BungeeChatAPI, CMI, DiscordSRV, Factions, Feudal, ItemsAdder, Essentials, LegacyFactions, Lands, LuckPerms, Multiverse-Core, MVdWPlaceholderAPI, MythicMobs, mcMMO, Nicky, PlaceholderAPI, ProtocolLib, SimpleClans, Towny, TownyChat, Vault, WorldEdit]
+commands:  

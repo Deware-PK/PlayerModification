@@ -12,6 +12,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -122,6 +123,21 @@ public class PlayerModificationConsoleCommand implements CommandExecutor {
 									ListUtil.addAntiBuildingList(plr);
 								} else {
 									ListUtil.removeAntiBuildPlayer(plr);
+								}
+							}
+
+
+							for (final Entity entity : Bukkit.getWorld(worldName).getEntities()) {
+
+								if (entity.getWorld().getName().equals(worldName) && !entity.getWorld().getName().equals(BlackListWorldName)) {
+
+									if (config.getSection(worldName).getBoolean("Enabled_Mob_To_Drop_Exp")) {
+										if (ListUtil.getDisableDropEntity(entity)) {
+											ListUtil.removeDisableDropEntity(entity);
+										}
+									} else {
+										ListUtil.addDisableDropEntity(entity);
+									}
 								}
 							}
 						}

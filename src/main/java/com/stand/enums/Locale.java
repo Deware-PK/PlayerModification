@@ -9,21 +9,21 @@ public enum Locale {
 	ANTI_BUILD {
 		@Override
 		public void sendMessage(final Player player) {
-			final Yaml yaml = new Yaml("language", "plugins/PlayerModification");
+			final Yaml yaml = new Yaml("Language", "plugins/PlayerModification");
 			Common.sendMessage(player , yaml.getString("Anti-build-message"));
 		}
 	},
 	PVP_DISABLED {
 		@Override
 		public void sendMessage(final Player player) {
-			final Yaml yaml = new Yaml("language", "plugins/PlayerModification");
+			final Yaml yaml = new Yaml("Language", "plugins/PlayerModification");
 			Common.sendMessage(player , Common.colorize(yaml.getString("Pvp-disable-message")));
 		}
 	},
 	NO_PERMISSION {
 		@Override
 		public void sendMessage(final Player player) {
-			final Yaml yaml = new Yaml("language", "plugins/PlayerModification");
+			final Yaml yaml = new Yaml("Language", "plugins/PlayerModification");
 			Common.sendMessage(player , yaml.getString("Do-not-have-permission"));
 		}
 	};

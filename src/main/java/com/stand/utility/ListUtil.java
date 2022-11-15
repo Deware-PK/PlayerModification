@@ -2,19 +2,17 @@ package com.stand.utility;
 
 
 import org.bukkit.World;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 public class ListUtil {
 
 	private static final ArrayList<UUID> pvpEnabledList = new ArrayList<>();
 	private static final ArrayList<UUID> antiBuildWorldList = new ArrayList<>();
 	public static final Set<World> blackListedWorlds = new HashSet<>();
-	private static final ArrayList<UUID> gravityEnabledList = new ArrayList<>();
+	private static final List<UUID> unableDropExp = new ArrayList<>();
 
 	public static void addPvpPlayer(final Player player) {
 		pvpEnabledList.add(player.getUniqueId());
@@ -43,17 +41,17 @@ public class ListUtil {
 	}
 
 	// -------------------------------------------------------------
-	// Future idea
 
-	public static void addGravityList(final Player player) {
-		gravityEnabledList.add(player.getUniqueId());
+	public static void addDisableDropEntity(final Entity entity) {
+		unableDropExp.add(entity.getUniqueId());
 	}
 
-	public static boolean getGravityPlayer(final Player player) {
-		return gravityEnabledList.contains(player.getUniqueId());
+	public static boolean getDisableDropEntity(final Entity entity) {
+		return unableDropExp.contains(entity.getUniqueId());
 	}
 
-	public static void removeGravityPlayer(final Player player) {
-		gravityEnabledList.remove(player.getUniqueId());
+	public static void removeDisableDropEntity(final Entity entity) {
+		unableDropExp.remove(entity.getUniqueId());
 	}
+
 }

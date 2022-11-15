@@ -1,0 +1,9 @@
+Max_Health: 20.0
+Health_Scale: 20.0
+Movement_Speed: 0.2
+Flying_Speed: 0.1
+Attack_Damage: 1.0
+Enabled_Old_Pvp_Mechanics: false
+Allow_Pvp: true
+Pick_Up_Item: true
+Anti_Build: false

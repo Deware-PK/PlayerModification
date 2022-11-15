@@ -2,7 +2,9 @@
 
 
 ```diff
+
 - This plugin has stopped developing since last 6 month.
+
 ```
 
 ![src_promote_v2](https://user-images.githubusercontent.com/88251253/161236541-b79d5415-72cd-4f1f-999b-ed8d9b398934.png)

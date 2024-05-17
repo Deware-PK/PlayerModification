@@ -3,7 +3,8 @@
 
 ```diff
 
-- This plugin has stopped developing since last 6 month.
+- This plugin has stopped developing since last 2 years.
+- This plugin is my very first I've made. It may not good.
 
 ```
 
